@@ -1,3 +1,8 @@
+app.get("/debug", (req, res) => {
+  res.send("NEW VERSION LIVE
+✅");
+});
+``
 import express from "express";
 
 const app = express();
