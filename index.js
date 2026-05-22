@@ -40,32 +40,58 @@ async function getToken() {
 }
 
 // 🔍 Contact lookup
+
 app.get("/vebraalto/contacts", async (req, res) => {
   try {
-    const phone = req.query.phone;
+    let phone = req.query.phone;
     const token = await getToken();
 
-    const apiRes = await fetch(
-      `https://api.alto.zoopladev.co.uk/contacts?phone=${phone}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+    let url = "https://api.alto.zoopladev.co.uk/contacts";
+
+    // ✅ If phone is provided, add filter
+    if (phone) {
+      // optional: fix UK format
+      if (phone.startsWith("0")) {
+        phone = "+44" + phone.substring(1);
       }
-    );
+
+      url += `?phone=${encodeURIComponent(phone)}`;
+    }
+
+    const apiRes = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
 
     const data = await apiRes.json();
-    const contact = data?.results?.[0];
 
-    res.json({
-      name: contact?.name || "Unknown",
-      phone: contact?.phone || phone,
-      email: contact?.email || ""
+    // ✅ CASE 1: phone lookup
+    if (phone) {
+      const contact = data?.results?.[0];
+
+      return res.json({
+        name: contact?.name || "Unknown",
+        phone: contact?.phone || phone,
+        email: contact?.email || ""
+      });
+    }
+
+    // ✅ CASE 2: no phone → return list (paginated)
+    return res.json({
+      count: data?.results?.length || 0,
+      contacts: data?.results || [],
+      page: data?.page,
+      total: data?.total
     });
 
   } catch (err) {
-    console.error(err);
-    res.json({ name: "Error", phone: req.query.phone });
+    console.error("ERROR:", err);
+    res.json({
+      name: "Error",
+      phone: req.query.phone || null,
+      error: err.message
+    });
   }
 });
 
