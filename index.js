@@ -1,10 +1,10 @@
+import express from "express";
+
 app.get("/debug", (req, res) => {
   res.send("NEW VERSION LIVE
 ✅");
 });
 ``
-import express from "express";
-
 const app = express();
 app.use(express.json());
 
