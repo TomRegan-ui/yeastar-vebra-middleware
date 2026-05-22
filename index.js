@@ -1,5 +1,4 @@
 import express from "express";
-import fetch from "node-fetch";
 
 const app = express();
 app.use(express.json());
@@ -65,6 +64,7 @@ app.get("/vebraalto/search", async (req, res) => {
   }
 });
 
+// 📞 Call events
 app.post("/vebraalto/calllog", (req, res) => {
   console.log("Call log:", req.body);
   res.sendStatus(200);
@@ -75,6 +75,8 @@ app.post("/vebraalto/clicktocall", (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
-});
+// ✅ Render-compatible port
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
