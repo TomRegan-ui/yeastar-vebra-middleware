@@ -1,12 +1,12 @@
 import express from "express";
 
-app.get("/debug", (req, res) => {
-  res.send("NEW VERSION LIVE
-✅");
-});
-``
 const app = express();
 app.use(express.json());
+
+// ✅ Debug route
+app.get("/debug", (req, res) => {
+  res.send("NEW VERSION LIVE ✅");
+});
 
 let accessToken = null;
 let tokenExpiry = 0;
@@ -41,7 +41,6 @@ async function getToken() {
 
 // 🔍 Contact lookup
 app.get("/vebraalto/contacts", async (req, res) => {
-  ``
   try {
     const phone = req.query.phone;
     const token = await getToken();
@@ -86,4 +85,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
