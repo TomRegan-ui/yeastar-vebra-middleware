@@ -36,6 +36,7 @@ async function getToken() {
 
 // 🔍 Contact lookup
 app.get("/vebraalto/contacts", async (req, res) => {
+  ``
   try {
     const phone = req.query.phone;
     const token = await getToken();
