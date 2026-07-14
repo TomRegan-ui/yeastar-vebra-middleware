@@ -23,6 +23,7 @@ async function getToken() {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
+      "Authorization": "Basic 7kr09htk3qo8olvi5protl3qk3:c6lkmvukt95uai3koa0elmm5pm96tehsj21ssmgl2kp9gvbtfgg"
     },
     body: new URLSearchParams({
       grant_type: "client_credentials",
